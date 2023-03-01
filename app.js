@@ -1,8 +1,8 @@
 const {google}=require('googleapis');
 const {OAuth2}=google.auth;
 
-const oAuthClient = new OAuth2();
-oAuth2Client.setCredentials({refresh_token})
+const oAuthClient = new OAuth2(process.env.client_id,process.env.client_secret);
+oAuth2Client.setCredentials({refresh_token:process.env.refresh_token})
 
 const calendar=google.calendar({version:'v3',auth:oAuthClient})
 const eventStartTime=new Date();
@@ -37,5 +37,7 @@ calendar.freebusy.query({resource:{
     if(eventsArr.length===0)return calendar.events.insert({calendarId:'primary',resource:event},(err =>{
         if (err) return console.error('Calendar Event Creation Error',err)
         return console.log('Calendar Event Created')
-    }))
+    })
+  
+    ) 
 })
